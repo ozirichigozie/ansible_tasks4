@@ -1,0 +1,31 @@
+---
+- name: ansible loop
+  hosts: all
+  
+  tasks:
+  - name: update cache
+    package:
+      update_cache: yes
+      state: latest
+
+  # - name: Add several users to one group
+  #   ansible.builtin.user:
+  #     name: "{{ item }}"
+  #     state: present
+  #     groups: "wheel"
+  #   loop:
+  #     - james
+  #     - amaka
+  #     - joy
+  #     - cloudtopg
+
+  - name: Add several users to several groups
+    ansible.builtin.user:
+      name: "{{ item.name }}"
+      state: present
+      groups: "{{ item.groups }}"
+    loop:
+      - { name: 'james', groups: 'wheel' }
+      - { name: 'amaka', groups: 'root' }
+      - { name: 'joy', groups: 'root' }
+      - { name: 'cloudtopg', groups: 'wheel' }
